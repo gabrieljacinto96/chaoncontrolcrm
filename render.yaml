@@ -3,7 +3,7 @@ services:
     name: python-aura-crm
     runtime: docker
     autoDeploy: true
-    plan: starter
+    plan: free
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
