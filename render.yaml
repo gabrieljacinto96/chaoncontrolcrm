@@ -14,7 +14,3 @@ services:
         value: 3000
       - key: SYNC_SHARED_KEY
         generateValue: true
-    disk:
-      name: crm-data
-      mountPath: /app/data
-      sizeGB: 1
