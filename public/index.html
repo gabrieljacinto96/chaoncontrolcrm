@@ -1,0 +1,263 @@
+﻿<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b7285" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Chaos n Control - Equipa de Consultores</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <section id="installPanel" class="panel install-panel hidden">
+        <div class="install-panel-header">
+          <strong>Instalar App</strong>
+          <button id="installAppBtn" type="button">Instalar</button>
+        </div>
+        <p id="installStatusText">Podes instalar este CRM no ecrã inicial para usar como app.</p>
+      </section>
+
+      <section id="offlinePanel" class="panel offline-panel hidden">
+        <div class="offline-panel-header">
+          <strong id="offlineModeText">Modo online</strong>
+          <button id="offlineSyncBtn" type="button" class="secondary">Sincronizar pendentes</button>
+        </div>
+        <p id="offlineQueueText">Sem ações pendentes.</p>
+      </section>
+
+      <header>
+        <div class="brand-header">
+          <img
+            id="teamLogo"
+            class="team-logo"
+            src="logo-equipa.jpg"
+            alt="Logotipo da equipa"
+            onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='logo-equipa.png';}else{this.onerror=null;this.src='logo-default.svg';}"
+          />
+          <div>
+            <h1>Chaos n Control</h1>
+            <p>Gestão de clientes para equipas de consultoria imobiliária</p>
+          </div>
+        </div>
+      </header>
+
+      <section id="loginSection" class="panel">
+        <h2>Login</h2>
+        <form id="loginForm" class="grid">
+          <label>
+            Utilizador
+            <input id="username" value="admin" required />
+          </label>
+          <label>
+            Palavra-passe
+            <input id="password" type="password" value="admin123" required />
+          </label>
+          <button type="submit">Entrar</button>
+        </form>
+        <div class="login-help">
+          <p>Se o servidor estiver desligado, podes começar em modo local e sincronizar mais tarde quando a ligação regressar.</p>
+          <button id="enterLocalModeBtn" type="button" class="secondary">Usar sem servidor</button>
+        </div>
+      </section>
+
+      <main id="mainSection" class="hidden">
+        <section class="panel metrics" id="dashboard"></section>
+
+        <section class="panel sync-panel" id="syncPanel">
+          <div class="sync-panel-header">
+            <h2>Sincronização Híbrida</h2>
+            <button id="runSyncBtn" type="button" class="secondary">Sincronizar Agora</button>
+          </div>
+          <p id="syncStatusText">A verificar estado de sincronização...</p>
+        </section>
+
+        <section class="panel" id="followUpSection">
+          <div class="stats-header">
+            <h2>Follow-up Diário</h2>
+            <p>Contactos pendentes para hoje e situação atual de cada cliente.</p>
+          </div>
+          <div id="followUpList"></div>
+        </section>
+
+        <section class="panel split">
+          <div>
+            <h2>Registo de Clientes</h2>
+            <form id="clientForm" class="grid">
+              <input id="clientEditId" type="hidden" />
+
+              <label>
+                Nome
+                <input id="clientName" placeholder="Nome completo" required />
+              </label>
+
+              <label>
+                Nome do comercial que fez o contacto
+                <input id="clientCommercialName" placeholder="Ex: Ana Silva" />
+              </label>
+
+              <div class="role-grid">
+                <label class="checkbox-inline">
+                  <input id="clientIsSeller" type="checkbox" />
+                  Cliente vendedor
+                </label>
+                <label class="checkbox-inline">
+                  <input id="clientIsBuyer" type="checkbox" />
+                  Cliente comprador
+                </label>
+              </div>
+
+              <label>
+                Telemóvel
+                <input id="clientPhone" placeholder="Ex: 912345678" />
+              </label>
+
+              <label>
+                Morada
+                <input id="clientAddress" placeholder="Rua, número, localidade" />
+              </label>
+
+              <label>
+                Imóvel
+                <input id="clientProperty" placeholder="Descrição do imóvel" />
+              </label>
+
+              <label>
+                Observações
+                <textarea id="clientNotes" placeholder="Notas adicionais"></textarea>
+              </label>
+
+              <button id="clientSubmitBtn" type="submit">Adicionar Cliente</button>
+              <button id="clientCancelEdit" type="button" class="secondary hidden">Cancelar Edição</button>
+            </form>
+          </div>
+
+          <div>
+            <h2>Clientes Registados</h2>
+            <div class="history-tools">
+              <select id="clientTypeFilter">
+                <option value="all">Todos os tipos</option>
+                <option value="seller">Apenas vendedores</option>
+                <option value="buyer">Apenas compradores</option>
+                <option value="both">Vendedor e comprador</option>
+              </select>
+              <input id="clientSearch" placeholder="Pesquisar por nome, comercial, telemóvel, morada ou imóvel" />
+              <button id="exportClientsBtn" type="button" class="secondary">Exportar CSV</button>
+            </div>
+            <div id="clientsList"></div>
+          </div>
+        </section>
+
+        <section class="panel commercial-stats" id="commercialStatsSection">
+          <div class="stats-header">
+            <h2>Estatísticas por Comercial</h2>
+            <p>Contadores automáticos de clientes registados na semana, mês e ano atuais.</p>
+          </div>
+          <div id="commercialStats"></div>
+        </section>
+
+        <section class="panel hidden" id="commercialUsersSection">
+          <div class="stats-header">
+            <h2>Contas de Comerciais</h2>
+            <p>Área de administração para criar login individual para cada comercial.</p>
+          </div>
+
+          <form id="commercialUserForm" class="grid">
+            <label>
+              Nome do comercial
+              <input id="commercialUserFullName" placeholder="Ex: Ana Silva" required />
+            </label>
+            <label>
+              Utilizador
+              <input id="commercialUserUsername" placeholder="Ex: ana.silva" required />
+            </label>
+            <label>
+              Palavra-passe
+              <input id="commercialUserPassword" type="password" placeholder="Defina a palavra-passe" required />
+            </label>
+            <button type="submit">Criar Conta de Comercial</button>
+          </form>
+
+          <div id="commercialUsersList" class="spaced-list"></div>
+        </section>
+
+        <section class="panel hidden" id="goalsAdminSection">
+          <div class="stats-header">
+            <h2>Objetivos por Comercial</h2>
+            <p>Defina metas semanais e mensais para cada comercial.</p>
+          </div>
+
+          <form id="goalForm" class="grid">
+            <label>
+              Comercial
+              <select id="goalCommercialUser" required>
+                <option value="">Selecione um comercial</option>
+              </select>
+            </label>
+
+            <label>
+              Meta semanal (número de clientes)
+              <input id="goalWeekly" type="number" min="0" step="1" value="0" required />
+            </label>
+
+            <label>
+              Meta mensal (número de clientes)
+              <input id="goalMonthly" type="number" min="0" step="1" value="0" required />
+            </label>
+
+            <button type="submit">Guardar Objetivos</button>
+          </form>
+
+          <div id="goalsList" class="spaced-list"></div>
+        </section>
+      </main>
+
+      <div id="contactsModal" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3 id="contactsModalTitle">Histórico de Contactos</h3>
+            <button id="closeContactsModal" type="button" class="secondary">Fechar</button>
+          </div>
+
+          <form id="contactForm" class="grid">
+            <input id="contactClientId" type="hidden" />
+            <input id="contactChannel" placeholder="Canal (telefone, WhatsApp, email, presencial)" />
+            <textarea id="contactSummary" placeholder="Resumo do contacto" required></textarea>
+            <input id="contactNextStep" placeholder="Próximo passo" />
+            <label>
+              Data do contacto
+              <input id="contactDate" type="datetime-local" />
+            </label>
+            <button type="submit">Guardar Contacto</button>
+          </form>
+
+          <div id="contactsList" class="contacts-list"></div>
+        </div>
+      </div>
+
+      <div id="goalAlertModal" class="modal-backdrop hidden">
+        <div class="modal-card compact-modal">
+          <div class="modal-header">
+            <h3>Lembrete de Objetivos</h3>
+            <button id="closeGoalAlertModal" type="button" class="secondary">Fechar</button>
+          </div>
+          <div id="goalAlertContent"></div>
+        </div>
+      </div>
+
+      <div id="followUpReminderModal" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3>Lembrete Diário de Follow-up</h3>
+            <button id="closeFollowUpReminderModal" type="button" class="secondary">Fechar</button>
+          </div>
+          <div id="followUpReminderContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

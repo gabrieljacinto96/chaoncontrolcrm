@@ -1,0 +1,25 @@
+{
+  "name": "Chaos n Control CRM",
+  "short_name": "ChaosCRM",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0b7285",
+  "description": "CRM imobiliario para equipas de consultoria.",
+  "lang": "pt-PT",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
