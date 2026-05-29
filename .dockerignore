@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+debug.log
+.git
+.gitignore
+.vscode
+.memories
+memories
+*.local

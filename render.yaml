@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: python-aura-crm
+    runtime: docker
+    autoDeploy: true
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 3000
+      - key: SYNC_SHARED_KEY
+        generateValue: true
+    disk:
+      name: crm-data
+      mountPath: /app/data
+      sizeGB: 1

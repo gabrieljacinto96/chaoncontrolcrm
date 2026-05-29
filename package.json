@@ -1,0 +1,23 @@
+{
+  "name": "controle-entradas-saidas",
+  "version": "1.0.0",
+  "description": "Sistema de controlo de entradas e saídas de clientes",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "empresa",
+    "clientes",
+    "entradas",
+    "saidas"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}
